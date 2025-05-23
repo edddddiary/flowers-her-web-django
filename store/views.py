@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product
+from .models import Product, Variation
 from category.models import Category
 from cart.views import _add_cart_session_key
 from cart.models import Cart, CartItem
@@ -25,11 +25,15 @@ def product_detail(request, category_id, product_id):
     try:
         single_product =Product.objects.get(category__slug= category_id, slug = product_id)
         in_cart = CartItem.objects.filter(cart__cart_id=_add_cart_session_key(request), product = single_product).exists()
+        have_color = Variation.objects.filter(product=single_product, variation_category= "color").exists()
+        have_size = Variation.objects.filter(product=single_product, variation_category= "size").exists()
     except:
         raise ValueError("empty")
     context ={
         "single_product": single_product,
         "in_cart" : in_cart,
+        "have_color" : have_color,
+        "have_size" : have_size,
     }
     return render(request, "store/product_detail.html", context)
 

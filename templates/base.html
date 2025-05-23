@@ -109,13 +109,24 @@ $(document).ready(function() {
 	</div> <!-- col.// -->
 	<div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
 				<div class="d-flex justify-content-end mb-3 mb-lg-0">
-					<div class="widgett-header">
-						<small class="title text-muted">Welcome guest!</small>
-						<div>
-							<a href="./signin.html" class ="daftar-link">Sign in</a> <span class="dark-transp"> | </span>
-							<a href="./register.html" class ="daftar-link"> Register</a>
+					{% if user.id is None %}
+						<div class="widgett-header">
+							<small class="title text-muted">Welcome guest!</small>
+							<div>
+								<a href="{% url "account:login" %}" class="daftar-link">Sign in</a> <span class="dark-transp"> | </span>
+								<a href="{% url "account:register" %}" class="daftar-link">Register</a>
+							</div>
 						</div>
-					</div>
+					{% else %}
+						<div class="widgett-header">
+							<small class="title text-muted">Welcome {{ user.first_name }}!</small>
+							<div>
+								<a href="#" class="daftar-link">Dashboard</a> <span class="dark-transp"> | </span>
+								<a href="{% url "account:logout" %}" class="daftar-link">Log out</a>
+							</div>
+						</div>
+					{% endif %}
+
 					{% comment %} <a href="{% url "cart:index" %}" class="widget-header pl-3 ml-3">
 						<div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
 						<span class="badge badge-pill badge-danger notify">{{jum}}</span>

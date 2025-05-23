@@ -133,15 +133,19 @@ def increment(request, product_id):
 
 def index(request, total =0, quantity =0, cart_items=None):
     try:
-        cart = Cart.objects.get(cart_id = _add_cart_session_key(request))
-        cart_items= CartItem.objects.filter(cart=cart, is_active=True)
+        cart = Cart.objects.get(cart_id=_add_cart_session_key(request))
+    except Cart.DoesNotExist:
+        if request.user.is_authenticated:
+            cart, created = Cart.objects.get_or_create(user=request.user)
+        else:
+            cart = None
+
+    if cart:
+        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
         for cart_item in cart_items:
-            total+= (cart_item.product.price*cart_item.cart_quantity)
-            quantity+= cart_item.cart_quantity
-        tax = total*0.1
-        real_total = total+tax
-    except:
-        pass
+            total += cart_item.product.price * cart_item.cart_quantity
+            quantity += cart_item.cart_quantity
+
     tax = total*0.1
     real_total = total+tax
     context ={

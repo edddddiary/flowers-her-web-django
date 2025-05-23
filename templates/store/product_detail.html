@@ -31,7 +31,9 @@
 		<p>{{single_product.description}}</p>
 
 
-		<hr>
+		
+			{% if have_color %}
+			<hr>
 			<div class="row">
 				<div class="item-option-select">
 					<h6>Select</h6>
@@ -41,6 +43,7 @@
 						<option value={{i.variation_value | lower}}> {{i.variation_value | capfirst}} </option>
 						{% endfor %}
 					</select>
+					
 					{% comment %} <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
 					<label class="btn btn-light">
 						<input type="radio" name="radio_color"> Silver
@@ -57,6 +60,8 @@
 					</div>  {% endcomment %}
 				</div>
 			</div> <!-- row.// -->
+			{% endif %}
+			{% if have_size %}
 			<div class="row">
 				<div class="item-option-select">
 					<h6>Select</h6>
@@ -83,6 +88,8 @@
 				</div>
 			</div> <!-- row.// -->
 			<hr>
+			{% endif %}
+			
 			{% if single_product.stock < 0 or single_product.stock == 0 %}
 				<p style="font-size: 2rem; color: red; font-weight: bold;">Out of stock</p>
 			{% comment %} {% elif in_cart %}

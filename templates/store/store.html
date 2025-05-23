@@ -137,9 +137,11 @@
 				<img href="{% url "store:product_detail" product.category.slug product.slug %}" src="{{product.image.url}}">
 				
 			</div> <!-- img-wrap.// -->
+
 			<figcaption class="info-wrap">
 				<div class="fix-height">
-					<a href="{% url "store:product_detail" product.category.slug product.slug %}" class="title">{{product.product_name}}</a>
+					
+					<a href="{% url "store:product_detail" product.category.slug product.slug %}" class="product-link">{{product.product_name}}</a>
 					<div class="price-wrap mt-2">
 						<span class="price" data-price="{{product.price}}"></span>
 						{% comment %} <del class="price-old">$1980</del> {% endcomment %}
